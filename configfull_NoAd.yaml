@@ -11,7 +11,7 @@ proxy-providers:
       url: https://www.gstatic.com/generate_204
       interval: 300
     proxy: 🟢 直连
-    url: "订阅链接写在这里"
+    url: "http://192.168.1.70:3001/2cXaAxRGfddmGz2yx1wA/download/collection/112"
   Airport_02:
     type: http
     interval: 86400
