@@ -1,0 +1,463 @@
+# 远程订阅（从第一份配置中引入）
+proxy-providers:
+  Airport_01:
+    type: http
+    interval: 86400
+    health-check:
+      enable: true
+      url: 'https://edge.microsoft.com/captiveportal/generate_204'
+      interval: 300
+    exclude-filter: >-
+      (?i)(拒绝|直连|群|邀请|返利|循环|官网|客服|网站|网址|获取|订阅|流量|到期|机场|下次|版本|官址|备用|过期|已用|联系|邮箱|工单|贩卖|通知|倒卖|防止|国内|地址|频道|无法|说明|使用|提示|特别|访问|支持|教程|关注|更新|作者|加入|USE|USED|TOTAL|EXPIRE|EMAIL|Panel|Channel|Author|traffic)
+    proxy: "🟢 直连"
+    url: "http://192.168.1.70:3001/2cXaAxRGfddmGz2yx1wA/download/ip-port-uniq_1742300767418"
+    override:
+      additional-prefix: ' '
+      skip-cert-verify: true
+      udp: true
+  Airport_02:
+    type: http
+    interval: 86400
+    health-check:
+      enable: true
+      url: 'https://edge.microsoft.com/captiveportal/generate_204'
+      interval: 300
+    exclude-filter: >-
+      (?i)(拒绝|直连|群|邀请|返利|循环|官网|客服|网站|网址|获取|订阅|流量|到期|机场|下次|版本|官址|备用|过期|已用|联系|邮箱|工单|贩卖|通知|倒卖|防止|国内|地址|频道|无法|说明|使用|提示|特别|访问|支持|教程|关注|更新|作者|加入|USE|USED|TOTAL|EXPIRE|EMAIL|Panel|Channel|Author|traffic)
+    proxy: "🟢 直连"
+    url: "订阅链接2"
+    override:
+      additional-prefix: '[机场名称2] '
+      skip-cert-verify: true
+      udp: true
+  Airport_03:
+    type: http
+    interval: 86400
+    health-check:
+      enable: true
+      url: 'https://edge.microsoft.com/captiveportal/generate_204'
+      interval: 300
+    exclude-filter: >-
+      (?i)(拒绝|直连|群|邀请|返利|循环|官网|客服|网站|网址|获取|订阅|流量|到期|机场|下次|版本|官址|备用|过期|已用|联系|邮箱|工单|贩卖|通知|倒卖|防止|国内|地址|频道|无法|说明|使用|提示|特别|访问|支持|教程|关注|更新|作者|加入|USE|USED|TOTAL|EXPIRE|EMAIL|Panel|Channel|Author|traffic)
+    proxy: "🟢 直连"
+    url: "订阅链接3"
+    override:
+      additional-prefix: '[机场名称3] '
+      skip-cert-verify: true
+      udp: true
+
+# 用于下载订阅时指定UA（从第一份配置引入）
+global-ua: clash.meta
+
+# 规则提供者
+rule-providers:
+  private:
+    url: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/private.yaml
+    path: ./ruleset/private.yaml
+    behavior: domain
+    interval: 86400
+    format: yaml
+    type: http
+  cn_domain:
+    url: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/cn.yaml
+    path: ./ruleset/cn_domain.yaml
+    behavior: domain
+    interval: 86400
+    format: yaml
+    type: http
+  telegram_domain:
+    url: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/telegram.yaml
+    path: ./ruleset/telegram_domain.yaml
+    behavior: domain
+    interval: 86400
+    format: yaml
+    type: http
+  google_domain:
+    url: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/google.yaml
+    path: ./ruleset/google_domain.yaml
+    behavior: domain
+    interval: 86400
+    format: yaml
+    type: http
+  geolocation-!cn:
+    url: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/geolocation-!cn.yaml
+    path: ./ruleset/geolocation-!cn.yaml
+    behavior: domain
+    interval: 86400
+    format: yaml
+    type: http
+  cn_ip:
+    url: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/cn.yaml
+    path: ./ruleset/cn_ip.yaml
+    behavior: ipcidr
+    interval: 86400
+    format: yaml
+    type: http
+  telegram_ip:
+    url: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/telegram.yaml
+    path: ./ruleset/telegram_ip.yaml
+    behavior: ipcidr
+    interval: 86400
+    format: yaml
+    type: http
+  google_ip:
+    url: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/google.yaml
+    path: ./ruleset/google_ip.yaml
+    behavior: ipcidr
+    interval: 86400
+    format: yaml
+    type: http
+  bing:
+    url: https://testingcf.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Bing/Bing.yaml
+    path: ./ruleset/bing.yaml
+    behavior: classical
+    interval: 86400
+    format: yaml
+    type: http
+  copilot:
+    url: https://testingcf.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Copilot/Copilot.yaml
+    path: ./ruleset/copilot.yaml
+    behavior: classical
+    interval: 86400
+    format: yaml
+    type: http
+  claude:
+    url: https://testingcf.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Claude/Claude.yaml
+    path: ./ruleset/claude.yaml
+    behavior: classical
+    interval: 86400
+    format: yaml
+    type: http
+  bard:
+    url: https://testingcf.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/BardAI/BardAI.yaml
+    path: ./ruleset/bard.yaml
+    behavior: classical
+    interval: 86400
+    format: yaml
+    type: http
+  openai:
+    url: https://testingcf.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/OpenAI/OpenAI.yaml
+    path: ./ruleset/openai.yaml
+    behavior: classical
+    interval: 86400
+    format: yaml
+    type: http
+  steam:
+    url: https://testingcf.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Steam/Steam.yaml
+    path: ./ruleset/steam.yaml
+    behavior: classical
+    interval: 86400
+    format: yaml
+    type: http
+  youtube_domain:
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/youtube.mrs"
+    path: ./ruleset/youtube_domain.mrs
+    behavior: domain
+    interval: 86400
+    format: mrs
+    type: http
+  netflix_domain:
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/netflix.mrs"
+    path: ./ruleset/netflix_domain.mrs
+    behavior: domain
+    interval: 86400
+    format: mrs
+    type: http
+  microsoft_domain:
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft.mrs"
+    path: ./ruleset/microsoft_domain.mrs
+    behavior: domain
+    interval: 86400
+    format: mrs
+    type: http
+  apple_domain:
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple.mrs"
+    path: ./ruleset/apple_domain.mrs
+    behavior: domain
+    interval: 86400
+    format: mrs
+    type: http
+  bilibili_domain:
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo/geosite/bilibili.mrs"
+    path: ./ruleset/bilibili_domain.mrs
+    behavior: domain
+    interval: 86400
+    format: mrs
+    type: http
+  Epic_domain:
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo/geosite/epicgames.mrs"
+    path: ./ruleset/Epic_domain.mrs
+    behavior: domain
+    interval: 86400
+    format: mrs
+    type: http
+  EA_domain:
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo/geosite/ea.mrs"
+    path: ./ruleset/EA_domain.mrs
+    behavior: domain
+    interval: 86400
+    format: mrs
+    type: http
+  Blizzard_domain:
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo/geosite/blizzard.mrs"
+    path: ./ruleset/Blizzard_domain.mrs
+    behavior: domain
+    interval: 86400
+    format: yaml
+    type: http
+  UBI_domain:
+    url: "https://raw.githubusercontent.com/Lanlan13-14/Rules/refs/heads/main/rules/Domain/ubi.mrs"
+    path: ./ruleset/UBI_domain.mrs
+    behavior: domain
+    interval: 86400
+    format: mrs
+    type: http
+  Sony_domain:
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo/geosite/sony.mrs"
+    path: ./ruleset/Sony_domain.mrs
+    behavior: domain
+    interval: 86400
+    format: mrs
+    type: http
+  Nintendo_domain:
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo/geosite/nintendo.mrs"
+    path: ./ruleset/Nintendo_domain.mrs
+    behavior: domain
+    interval: 86400
+    format: mrs
+    type: http
+  github_domain:
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/github.mrs"
+    path: ./ruleset/github_domain.mrs
+    behavior: domain
+    interval: 86400
+    format: mrs
+    type: http
+
+proxies:
+  - name: "🟢 直连"
+    type: direct
+    udp: true
+
+proxy-groups:
+  # --- Core Proxy Selection Groups ---
+  - icon: https://testingcf.jsdelivr.net/gh/Orz-3/mini@master/Color/Static.png
+    include-all: true
+    exclude-filter: (?i)GB|Traffic|Expire|Premium|频道|订阅|ISP|流量|到期|重置
+    name: PROXY # Manual Selection Group (includes AUTO options)
+    type: select
+    proxies:
+      - AUTO
+      - HK AUTO
+      - SG AUTO
+      - JP AUTO
+      - US AUTO
+      # Add other specific nodes or groups here if needed later
+  - icon: https://testingcf.jsdelivr.net/gh/Orz-3/mini@master/Color/Urltest.png
+    include-all: true
+    exclude-filter: (?i)GB|Traffic|Expire|Premium|频道|订阅|ISP|流量|到期|重置
+    name: AUTO # Automatic Fastest Node Overall
+    type: url-test
+    interval: 300
+  - icon: https://testingcf.jsdelivr.net/gh/Orz-3/mini@master/Color/HK.png
+    include-all: true
+    exclude-filter: (?i)GB|Traffic|Expire|Premium|频道|订阅|ISP|流量|到期|重置
+    filter: (?i)香港|Hong Kong|HK|🇭🇰
+    name: HK AUTO # Automatic Fastest HK Node
+    type: url-test
+    interval: 300
+  - icon: https://testingcf.jsdelivr.net/gh/Orz-3/mini@master/Color/SG.png
+    include-all: true
+    exclude-filter: (?i)GB|Traffic|Expire|Premium|频道|订阅|ISP|流量|到期|重置
+    filter: (?i)新加坡|Singapore|🇸🇬
+    name: SG AUTO # Automatic Fastest SG Node
+    type: url-test
+    interval: 300
+  - icon: https://testingcf.jsdelivr.net/gh/Orz-3/mini@master/Color/JP.png
+    include-all: true
+    exclude-filter: (?i)GB|Traffic|Expire|Premium|频道|订阅|ISP|流量|到期|重置
+    filter: (?i)日本|Japan|🇯🇵
+    name: JP AUTO # Automatic Fastest JP Node
+    type: url-test
+    interval: 300
+  - icon: https://testingcf.jsdelivr.net/gh/Orz-3/mini@master/Color/US.png
+    include-all: true
+    exclude-filter: (?i)GB|Traffic|Expire|Premium|频道|订阅|ISP|流量|到期|重置
+    filter: (?i)美国|USA|🇺🇸
+    name: US AUTO # Automatic Fastest US Node
+    type: url-test
+    interval: 300
+  - icon: "https://testingcf.jsdelivr.net/gh/Orz-3/mini@master/Color/github.png" # GitHub 图标
+    name: GitHub
+    type: select
+    proxies:
+      - PROXY
+      - AUTO
+      - US AUTO
+      - "🟢 直连"
+  - icon: https://testingcf.jsdelivr.net/gh/Orz-3/mini@master/Color/Global.png
+    # This group includes all proxies by default via 'include-all', the 'proxies' list below mainly defines the order and available sub-groups for selection.
+    include-all: true
+    exclude-filter: (?i)GB|Traffic|Expire|Premium|频道|订阅|ISP|流量|到期|重置
+    name: GLOBAL # Top-level Manual Selection (includes other groups)
+    type: select
+    proxies:
+      - PROXY
+      - AUTO # Fastest overall node
+      - HK AUTO
+      - SG AUTO
+      - JP AUTO
+      - US AUTO
+      - GitHub
+      # Add specific service groups below if you want direct access from GLOBAL
+      - AIGC
+      - Telegram
+      - Google
+      - YouTube
+      - NETFLIX
+      - Microsoft
+      - Apple
+      - 哔哩哔哩
+      - 游戏平台
+      - "🟢 直连"
+
+  # --- Service Specific Groups ---
+  - icon: https://testingcf.jsdelivr.net/gh/Orz-3/mini@master/Color/OpenAI.png
+    name: AIGC
+    type: select
+    proxies:
+      - PROXY
+      - SG AUTO
+      - JP AUTO
+      - US AUTO
+      - AUTO # Fastest overall as fallback
+  - icon: https://testingcf.jsdelivr.net/gh/Orz-3/mini@master/Color/Telegram.png
+    name: Telegram
+    type: select
+    proxies:
+      - PROXY
+      - HK AUTO
+      - SG AUTO
+      - JP AUTO
+      - US AUTO
+      - AUTO
+  - icon: https://testingcf.jsdelivr.net/gh/Orz-3/mini@master/Color/Google.png
+    name: Google
+    type: select
+    proxies:
+      - PROXY
+      - HK AUTO
+      - SG AUTO
+      - JP AUTO
+      - US AUTO
+      - AUTO
+  - icon: "https://testingcf.jsdelivr.net/gh/Orz-3/mini@master/Color/YouTube.png"
+    name: YouTube
+    type: select
+    proxies:
+      - PROXY
+      - HK AUTO
+      - SG AUTO
+      - JP AUTO
+      - US AUTO
+      - AUTO
+      - "🟢 直连"
+  - icon: "https://testingcf.jsdelivr.net/gh/Orz-3/mini@master/Color/Netflix.png"
+    name: NETFLIX
+    type: select
+    proxies:
+      - PROXY
+      - HK AUTO
+      - SG AUTO
+      - JP AUTO
+      - US AUTO
+      - AUTO
+      - "🟢 直连"
+  - icon: "https://testingcf.jsdelivr.net/gh/Orz-3/mini@master/Color/Microsoft.png"
+    name: Microsoft
+    type: select
+    proxies:
+      - PROXY
+      - HK AUTO
+      - SG AUTO
+      - JP AUTO
+      - US AUTO
+      - AUTO
+      - "🟢 直连"
+  - icon: "https://testingcf.jsdelivr.net/gh/Orz-3/mini@master/Color/Apple.png"
+    name: Apple
+    type: select
+    proxies:
+      - PROXY
+      - "🟢 直连" # Apple services often work better with Direct
+      - HK AUTO
+      - SG AUTO
+      - JP AUTO
+      - US AUTO
+      - AUTO
+  - icon: "https://testingcf.jsdelivr.net/gh/Orz-3/mini@master/Color/bilibili.png"
+    name: 哔哩哔哩
+    type: select
+    proxies:
+      - PROXY
+      - "🟢 直连" # Bilibili Mainland content needs Direct
+      - HK AUTO # For HK/TW/SEA content?
+      - SG AUTO
+      - JP AUTO
+      - US AUTO
+      - AUTO
+  - icon: "https://testingcf.jsdelivr.net/gh/Orz-3/mini@master/Color/GAME.png"
+    name: 游戏平台
+    type: select
+    proxies:
+      - PROXY
+      - HK AUTO
+      - SG AUTO
+      - JP AUTO
+      - US AUTO
+      - AUTO
+      - "🟢 直连"
+
+rules:
+  # 将内网 IP 192.168.1.0/24 的流量强制走直连
+  - IP-CIDR,192.168.1.0/24,DIRECT
+  # --- Priority Direct Rules ---
+  - RULE-SET,private,DIRECT # Private/LAN IPs
+  - RULE-SET,cn_ip,DIRECT # China IPs
+  - RULE-SET,cn_domain,DIRECT # China Domains
+
+  # --- Common Proxied Apps/Services ---
+  - RULE-SET,telegram_domain,Telegram
+  - RULE-SET,telegram_ip,Telegram
+  - RULE-SET,google_domain,Google
+  - RULE-SET,google_ip,Google
+  - RULE-SET,openai,AIGC # AI Services
+  - RULE-SET,bing,AIGC
+  - RULE-SET,copilot,AIGC
+  - RULE-SET,bard,AIGC
+  - RULE-SET,claude,AIGC
+
+  # --- GitHub Specific Rules ---
+  - RULE-SET,github_domain,GitHub # 将匹配到的 GitHub 域名流量路由到 GitHub 代理组
+
+  # --- Other Specific Services needing Proxy ---
+  - RULE-SET,steam,游戏平台 # Route Steam via Game Group (or PROXY if preferred)
+  - RULE-SET,youtube_domain,YouTube
+  - RULE-SET,netflix_domain,NETFLIX
+  - RULE-SET,microsoft_domain,Microsoft # Domains not covered by cn_* or specific internal rules
+  - RULE-SET,apple_domain,Apple # Domains not covered by cn_*
+  - RULE-SET,bilibili_domain,哔哩哔哩 # Specific Bilibili domains (might need HK/TW proxy)
+
+  # --- Game Platform Domains ---
+  - RULE-SET,Epic_domain,游戏平台
+  - RULE-SET,EA_domain,游戏平台
+  - RULE-SET,Blizzard_domain,游戏平台
+  - RULE-SET,UBI_domain,游戏平台
+  - RULE-SET,Sony_domain,游戏平台
+  - RULE-SET,Nintendo_domain,游戏平台
+
+  # --- General GeoIP/Domain Rules ---
+  - RULE-SET,geolocation-!cn,PROXY # Non-China Domains (if not matched above) - Wide Catch-all
+
+  # --- Final Fallback ---
+  - MATCH,PROXY # All other traffic goes to PROXY group (allows AUTO or manual selection)
