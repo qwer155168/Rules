@@ -146,7 +146,7 @@ dns:
     - quic://dns.alidns.com/dns-query
     - https://sm2.doh.pub/dns-query
   nameserver-policy:
-    "banAd_domain": rcode://success
+    "rule-set:banAd_domain": rcode://success
 proxies: 
   - name: "🟢 直连"
     type: direct
