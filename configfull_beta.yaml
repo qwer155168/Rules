@@ -153,7 +153,8 @@ dns:
   nameserver:
     - https://dns.google/dns-query
     - https://dns.cloudflare.com/dns-query
-
+  nameserver-policy:
+    "banAd_domain": rcode://success
 proxies: 
   - name: "🟢 直连"
     type: direct
