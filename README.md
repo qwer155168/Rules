@@ -56,14 +56,14 @@ mihomo使用mrs格式文件，Stash使用yaml格式文件
 [游戏规则相关内容](https://github.com/FQrabbit/SSTap-Rule)
 
 ### 标准版/Standard
-####### For Mihomo
+###### For Mihomo
 
 [![Mihomo](https://raw.githubusercontent.com/Lanlan13-14/Icon-for-webui/refs/heads/main/mihomo-mini.png)](https://raw.githubusercontent.com/Lanlan13-14/Rules/refs/heads/main/configfull.yaml)
 **[configfull.yaml](https://raw.githubusercontent.com/Lanlan13-14/Rules/refs/heads/main/configfull.yaml)**
 
 
 ##### 无广告拦截版/No ad blocking version
-####### For Mihomo and Stash
+###### For Mihomo and Stash
 [![Mihomo](https://raw.githubusercontent.com/Lanlan13-14/Icon-for-webui/refs/heads/main/mihomo-mini.png)](https://raw.githubusercontent.com/Lanlan13-14/Rules/refs/heads/main/configfull_NoAd.yaml)
 
 **[configfull_NoAd.yaml](https://raw.githubusercontent.com/Lanlan13-14/Rules/refs/heads/main/configfull_NoAd.yaml)**
