@@ -81,10 +81,6 @@
 
 **[configfull_NoAd_lite.yaml](https://raw.githubusercontent.com/Lanlan13-14/Rules/refs/heads/main/configfull_NoAd_lite.yaml)**
 
-## 一键生成配置/Generate configuration with one click
-地址
-https://sub.ikar.eu.org/
->
 ## 客户端推荐/Client Recommendation
 •Windows/MacOS/Linux
 >
