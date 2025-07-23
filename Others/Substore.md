@@ -351,7 +351,6 @@ function main(config) {
       "自建/家宽节点",
       "全球直连"
     ],
-    "exclude-filter": "(?i)(🟢 直连|群|邀请|返利|循环|官网|客服|网站|网址|获取|订阅|流量|到期|机场|下次|版本|官址|备用|过期|已用|联系|邮箱|工单|贩卖|通知|倒卖|防止|国内|地址|频道|无法|说明|使用|提示|特别|访问|支持|教程|关注|更新|作者|加入|USE|USED|TOTAL|EXPIRE|EMAIL|Panel|Channel|Author|traffic)",
     icon: "https://raw.githubusercontent.com/Lanlan13-14/Rules/refs/heads/main/icon/chain.png"
   };
 
@@ -380,8 +379,9 @@ proxies+:
    uuid: 
    network: tcp
    tls: true
-   udp: false
+   udp: true
    flow: xtls-rprx-vision
+   packet-encoding: xudp
    servername: 
    reality-opts:
      public-key: 
@@ -390,6 +390,9 @@ proxies+:
    skip-cert-verify: false
    tfo: false
 ```
+###### 如果不知道或者不会填写上述内容可以考虑借助Sub-store的订阅管理功能
+方式如下
+
 3.修改全局策略组使用如下代码
 ```
 function main(config) {
