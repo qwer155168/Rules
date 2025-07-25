@@ -144,14 +144,15 @@
 •[Kwisma](https://github.com/Kwisma/cf-worker-mihomo)
 
 ## 推广
-<div style="width: 300px; font-family: Arial, sans-serif; border: 1px solid #ccc; padding: 10px; border-radius: 10px;">
-  <img src="https://s2.loli.net/2023/09/13/AwnNHrRt4x3qD16.png" alt="OUO机场" style="width: 100%; border-radius: 10px;">
-  <h3 style="margin: 10px 0 5px;">OUO机场</h3>
-  <p style="margin: 5px 0;">粤港全专线机场</p>
-  <p style="margin: 5px 0;">10元 / 100G</p>
-  <p style="margin: 5px 0;">提供免费 Emby与AI 服务</p>
-  <a href="https://login.ouonetwork.com/register?aff=lMB9Ivxx" target="_blank" style="display: inline-block; margin-top: 10px; padding: 8px 12px; background-color: #007BFF; color: #fff; text-decoration: none; border-radius: 5px;">立即购买</a>
-</div>
+![OUO机场](https://s2.loli.net/2023/09/13/AwnNHrRt4x3qD16.png)
+
+## **OUO机场**
+
+粤港全专线机场  
+10元 / 100G  
+提供免费Emby与AI服务  
+
+[👉 立即购买](https://login.ouonetwork.com/register?aff=lMB9Ivxx)
 
 > [!TIP]
 > **生活是一条双行道，这是一个简单而深刻的事实。**  
