@@ -143,24 +143,6 @@
 
 •[Kwisma](https://github.com/Kwisma/cf-worker-mihomo)
 
-## 推广
-<table>
-  <tr>
-    <td style="width: 100px;">
-      <a href="https://login.ouonetwork.com/register?aff=lMB9Ivxx" target="_blank">
-        <img src="https://pub-369e0b04b6c44b6bb072fd349bf9986a.r2.dev/OUO.png" alt="OUO机场" style="width: 100px; border-radius: 8px;">
-      </a>
-    </td>
-    <td style="vertical-align: top; padding-left: 10px;">
-      <h2 style="margin: 0;">OUO机场</h2>
-      <p style="margin: 4px 0;">粤港全专线机场</p>
-      <p style="margin: 4px 0;">10元 / 100G</p>
-      <p style="margin: 4px 0;">提供免费的 Emby 与 AI 服务</p>
-      <a href="https://login.ouonetwork.com/register?aff=lMB9Ivxx" target="_blank">👉 立即购买</a>
-    </td>
-  </tr>
-</table>
-
 > [!TIP]
 > **生活是一条双行道，这是一个简单而深刻的事实。**  
 > 如果你在使用过程中遇到问题或有任何建议，欢迎指出。请确保你的帖子包含对他人有用的细节与信息，并通过 GitHub 社区分享你的发现。  
