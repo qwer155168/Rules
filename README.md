@@ -147,13 +147,13 @@
 <table>
   <tr>
     <td style="width: 100px;">
-      <img src="https://s2.loli.net/2023/09/13/AwnNHrRt4x3qD16.png" alt="OUO机场" style="width: 100px; border-radius: 8px;">
+      <img src="https://pub-369e0b04b6c44b6bb072fd349bf9986a.r2.dev/OUO.png" alt="OUO机场" style="width: 100px; border-radius: 8px;">
     </td>
     <td style="vertical-align: top; padding-left: 10px;">
       <h2 style="margin: 0;">OUO机场</h2>
-      <p style="margin: 4px 0;">粤港全专线机场</p>
+      <p style="margin: 4px 0;">粤港专线机场</p>
       <p style="margin: 4px 0;">10元 / 100G</p>
-      <p style="margin: 4px 0;">提供免费 Emby 服务</p>
+      <p style="margin: 4px 0;">提供免费Emby与AI服务</p>
       <a href="https://login.ouonetwork.com/register?aff=lMB9Ivxx" target="_blank">👉 立即购买</a>
     </td>
   </tr>
