@@ -12,7 +12,7 @@
 >
 > 因使用Mihomo Party而造成的任何bug与错误不提供任何支持issue和讨论都将被直接关闭
 > 
-> We do not provide any support for issues caused by the use of Mihomo Party. All related issues and discussions will be closed without exception.
+> No support is provided for Mihomo Party-related bugs or errors. all such issues and discussions will be closed immediately.
 >
 > Мы не предоставляем поддержку по вопросам, связанным с использованием Mihomo Party. Все соответствующие обращения и обсуждения будут немедленно закрыты без исключений.
 
