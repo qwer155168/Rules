@@ -9,7 +9,8 @@
 > 中国大陆用户使用请遵守本国法律法规
 >
 > Mainland China users please abide by the laws and regulations of your country.
-> 因使用Mihomo Party而造成的任何bug不提供任何支持issue和讨论都将被直接关闭
+>
+> 因使用Mihomo Party而造成的任何bug与错误不提供任何支持issue和讨论都将被直接关闭
 > 
 > We do not provide any support for issues caused by the use of Mihomo Party. All related issues and discussions will be closed without exception.
 
