@@ -474,4 +474,6 @@ function main(config) {
 <details>
 <summary>展开</summary>
 
-暂无
+如果你使用多啦a梦（一个转发面板）
+那这有一个查询流量的api可以给Sub-store使用
+http://面板连接地址/api/v1/open_api/sub_store?user=用户名&pwd=密码&tunnel=隧道id
