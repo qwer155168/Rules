@@ -13,31 +13,29 @@ jobs:
   update-config:
     runs-on: ubuntu-latest
     steps:
-      # 1. 拉取仓库
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      # 2. 配置提交身份
       - name: Set git identity
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-      # 3. 拉取并处理文件，保存到 /Rewrite
-      - name: Fetch and transform
+      - name: Fetch and transform to /Rewrite/config.yaml
+        shell: bash
         run: |
           set -euo pipefail
 
           mkdir -p Rewrite
           tmp="$(mktemp)"
 
-          # 拉取远程 YAML
+          # 1) 拉取远程 YAML
           curl -fsSL "https://raw.githubusercontent.com/Lanlan13-14/Rules/refs/heads/main/configfull.yaml" -o "$tmp"
 
-          # 替换 proxies 段落
+          # 2) 将指定 proxies 段落的键由 `proxies:` 改为 `+proxies:`（精确匹配该段）
           perl -0777 -pe 's/proxies:\n  - name: "🟢 直连"\n    type: direct\n    udp: true/+proxies:\n  - name: "🟢 直连"\n    type: direct\n    udp: true/s' -i "$tmp"
 
-          # 删除 PProviders 到第二个分隔行之间的块（缩进无关）
+          # 3) 删除从 `PProviders: &PProviders` 起直到第二个 "##############################################" 之间的整块（缩进无关）
           awk 'BEGIN{inblock=0;delims=0}
                {
                  if(inblock){
@@ -47,7 +45,7 @@ jobs:
                    }
                    next
                  }
-                 if($0 ~ /^[[:space:]]*PProviders: *&PProviders /){
+                 if($0 ~ /^[[:space:]]*PProviders:.*&PProviders/){
                    inblock=1; delims=0; next
                  }
                  print
@@ -55,13 +53,9 @@ jobs:
 
           rm -f "$tmp"
 
-      # 4. 仅在内容变化时提交
-      - name: Commit and push changes
+      - name: Commit and push
+        shell: bash
         run: |
-          if git diff --quiet -- Rewrite/config.yaml; then
-            echo "No changes to commit."
-            exit 0
-          fi
           git add Rewrite/config.yaml
-          git commit -m "Auto update Rewrite/config.yaml"
+          git commit -m "Auto update Rewrite/config.yaml" || echo "No changes to commit."
           git push
