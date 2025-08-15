@@ -2,7 +2,7 @@ name: Daily update config
 
 on:
   schedule:
-    # 每天东京/北京时间 05:00 执行 (UTC 20:00)
+    # 每天东京/北京时间 05:00 (UTC 20:00)
     - cron: '0 20 * * *'
   workflow_dispatch:
 
@@ -25,17 +25,23 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-
           mkdir -p Rewrite
           tmp="$(mktemp)"
 
           # 1) 拉取远程 YAML
           curl -fsSL "https://raw.githubusercontent.com/Lanlan13-14/Rules/refs/heads/main/configfull.yaml" -o "$tmp"
 
-          # 2) 将指定 proxies 段落的键由 `proxies:` 改为 `+proxies:`（精确匹配该段）
-          perl -0777 -pe 's/proxies:\n  - name: "🟢 直连"\n    type: direct\n    udp: true/+proxies:\n  - name: "🟢 直连"\n    type: direct\n    udp: true/s' -i "$tmp"
+          # 2) 在 proxy-groups 之前的范围内，把目标 proxies 段落改成 +proxies
+          awk 'BEGIN{before_pg=1}
+               /^[[:space:]]*proxy-groups:/ {before_pg=0}
+               {
+                 if (before_pg && $0 ~ /^[[:space:]]*proxies:[[:space:]]*$/) {
+                   sub(/proxies:/, "+proxies:")
+                 }
+                 print
+               }' "$tmp" > "${tmp}_step1"
 
-          # 3) 删除从 `PProviders: &PProviders` 起直到第二个 "##############################################" 之间的整块（缩进无关）
+          # 3) 删除 PProviders 到第二个分隔行之间的块（缩进无关）
           awk 'BEGIN{inblock=0;delims=0}
                {
                  if(inblock){
@@ -49,9 +55,9 @@ jobs:
                    inblock=1; delims=0; next
                  }
                  print
-               }' "$tmp" > Rewrite/config.yaml
+               }' "${tmp}_step1" > Rewrite/config.yaml
 
-          rm -f "$tmp"
+          rm -f "$tmp" "${tmp}_step1"
 
       - name: Commit and push
         shell: bash
