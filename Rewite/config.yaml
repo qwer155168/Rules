@@ -1,4 +1,4 @@
-+proxies: 
++proxies:
   - name: "🟢 直连"
     type: direct
     udp: true
