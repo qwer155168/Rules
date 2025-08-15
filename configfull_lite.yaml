@@ -51,8 +51,6 @@ ipv6: true
 allow-lan: true
 unified-delay: true
 tcp-concurrent: true
-# 全局 TLS 指纹默认随机
-global-client-fingerprint: random
 # interface-name: eth0  （路由器下根据情况指定出站接口）
 authentication:
 #  密码设置选项默认无
@@ -82,7 +80,7 @@ external-ui-url: "https://github.com/Zephyruso/zashboard/archive/refs/heads/gh-p
 
 # 匹配进程 always/strict/off
 find-process-mode: strict
-global-client-fingerprint: chrome
+global-client-fingerprint: random
 keep-alive-idle: 600
 keep-alive-interval: 30
 
