@@ -122,7 +122,7 @@ dns:
   nameserver:
     - https://dns.google/dns-query
     - https://dns.cloudflare.com/dns-query
-proxies: 
++proxies: 
   - name: "🟢 直连"
     type: direct
     udp: true
