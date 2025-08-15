@@ -1,0 +1,75 @@
+name: Daily update config
+
+on:
+  schedule:
+    # 北京/东京时间 05:00 (UTC 20:00)
+    - cron: '0 20 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-config:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout default branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # 取全历史，方便切换/创建分支
+
+      - name: Ensure Rewrite branch exists
+        run: |
+          if git ls-remote --exit-code --heads origin Rewrite; then
+            echo "Branch Rewrite exists."
+            git checkout Rewrite
+          else
+            echo "Branch Rewrite not found, creating..."
+            git checkout --orphan Rewrite
+            rm -rf *
+            git commit --allow-empty -m "init Rewrite branch"
+            git push origin Rewrite
+          fi
+
+      - name: Fetch and transform
+        run: |
+          set -euo pipefail
+
+          mkdir -p Rewrite
+          tmp="$(mktemp)"
+
+          # 1) 拉取远程 YAML
+          curl -fsSL "https://raw.githubusercontent.com/Lanlan13-14/Rules/refs/heads/main/configfull.yaml" -o "$tmp"
+
+          # 2) 替换 proxies 段落
+          perl -0777 -pe 's/proxies:\n  - name: "🟢 直连"\n    type: direct\n    udp: true/+proxies:\n  - name: "🟢 直连"\n    type: direct\n    udp: true/s' -i "$tmp"
+
+          # 3) 删除 PProviders 到第二个分隔行之间的块
+          awk 'BEGIN{inblock=0;delims=0}
+               {
+                 if(inblock){
+                   if($0 ~ /^##############################################$/){
+                     delims++
+                     if(delims==2){inblock=0; next} else {next}
+                   }
+                   next
+                 }
+                 if($0 ~ /^PProviders: *&PProviders /){
+                   inblock=1; delims=0; next
+                 }
+                 print
+               }' "$tmp" > Rewrite/config.yaml
+
+          rm -f "$tmp"
+
+      - name: Commit and push changes
+        run: |
+          if git diff --quiet -- Rewrite/config.yaml; then
+            echo "No changes to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add Rewrite/config.yaml
+          git commit -m "Auto update Rewrite/config.yaml"
+          git push origin Rewrite
