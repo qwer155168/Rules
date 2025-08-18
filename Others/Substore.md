@@ -485,8 +485,9 @@ rewrite目录下的文件，选择添加mihomo配置，来源选择你在订阅�
 <h2 id="b">VPS避坑列表</h2>
 <details>
 <summary>展开</summary>
-<1.Acck
-<2.Akile
-<3.Akko
+
+>1.Acck
+>2.Akile
+>3.Akko
 如果您觉得你个人使用良好，那当我没说
 若你是VPS小白请记住远离上述VPS，你贪便宜的每一分钱，都会以回旋镖的形式给你致命一击
