@@ -486,8 +486,29 @@ rewrite目录下的文件，选择添加mihomo配置，来源选择你在订阅�
 <details>
 <summary>展开</summary>
 
->1.Acck
->2.Akile
->3.Akko
-如果您觉得你个人使用良好，那当我没说
-若你是VPS小白请记住远离上述VPS，你贪便宜的每一分钱，都会以回旋镖的形式给你致命一击
+<table>
+  <thead>
+    <tr>
+      <th>序号</th>
+      <th>商家名称</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>Acck</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Akile</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>Akko</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>如果您觉得你个人使用良好，那当我没说。<br>
+若你是VPS小白请记住远离上述VPS，你贪便宜的每一分钱，都会以回旋镖的形式给你致命一击。</p>
+</details>
