@@ -39,22 +39,28 @@ jobs:
         # 删除 # 开头的注释行和空行
         sed -i '/^\s*#/d;/^\s*$/d' rules/Domain/banAd_mini.yaml
 
-    - name: Fetch and Merge pcdn.json Rules
+    - name: Fetch and Merge pcdn.json Rules with Deduplication
       run: |
         # 下载 pcdn.json
         curl -sL "https://raw.githubusercontent.com/DDCHlsq/sing-ruleset/refs/heads/master/pcdn.json" -o pcdn.json
 
-        # 提取 domain 和 domain_suffix，追加到 banAd_mini.yaml
-        domains=$(jq -r '.rules[].domain[]?' pcdn.json)
-        for d in $domains; do
-          echo "  - '$d'" >> rules/Domain/banAd_mini.yaml
-        done
+        # 创建临时文件存放所有规则
+        tmp_file=$(mktemp)
 
-        suffixes=$(jq -r '.rules[].domain_suffix[]?' pcdn.json)
-        for s in $suffixes; do
-          clean=$(echo "$s" | sed 's/^\.//')   # 去掉开头的 .
-          echo "  - '*.$clean'" >> rules/Domain/banAd_mini.yaml
-        done
+        # 先把原 banAd_mini.yaml 规则提取出来
+        grep -Eo "^[[:space:]]*-[[:space:]]*'.*'" rules/Domain/banAd_mini.yaml | sed "s/^[[:space:]]*-[[:space:]]*'\(.*\)'/\1/" >> "$tmp_file"
+
+        # 提取 pcdn.json 中 domain
+        jq -r '.rules[].domain[]?' pcdn.json >> "$tmp_file"
+
+        # 提取 pcdn.json 中 domain_suffix，去掉开头的 . 并加 '*.' 前缀
+        jq -r '.rules[].domain_suffix[]?' pcdn.json | sed 's/^\.//' | sed 's/^/*./' >> "$tmp_file"
+
+        # 去重并写回 banAd_mini.yaml
+        echo "payload:" > rules/Domain/banAd_mini.yaml
+        sort -u "$tmp_file" | awk '{print "  - \047"$0"\047"}' >> rules/Domain/banAd_mini.yaml
+
+        rm -f "$tmp_file" pcdn.json
 
     - name: Convert BanAd_mini Rules to MRS
       run: |
