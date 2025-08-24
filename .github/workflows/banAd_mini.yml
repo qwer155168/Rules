@@ -25,9 +25,11 @@ jobs:
 
     - name: Install mihomo
       run: |
-        python3 -m pip install --upgrade --target /usr/local/lib/python3.11/site-packages git+https://github.com/KT-Yeh/mihomo.git
-        cp /usr/local/lib/python3.11/site-packages/mihomo /usr/local/bin/mihomo
-        chmod +x /usr/local/bin/mihomo
+        python3 -m pip install --upgrade pip
+        python3 -m pip install --user -U git+https://github.com/KT-Yeh/mihomo.git
+        cp ~/.local/lib/python3.11/site-packages/mihomo ~/.local/bin/mihomo
+        chmod +x ~/.local/bin/mihomo
+        export PATH="$HOME/.local/bin:$PATH"
 
     - name: Fetch BanAd_mini Rules
       run: |
