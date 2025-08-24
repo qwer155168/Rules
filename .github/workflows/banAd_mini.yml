@@ -46,7 +46,6 @@ jobs:
 
         # 提取 domain 和 domain_suffix 转成 Clash YAML 追加到 banAd_mini.yaml
         echo "" >> rules/Domain/banAd_mini.yaml
-        echo "# ==== PCDN Domains ====" >> rules/Domain/banAd_mini.yaml
 
         domains=$(jq -r '.rules[].domain[]?' pcdn.json)
         for d in $domains; do
