@@ -29,15 +29,35 @@ jobs:
         curl -sL "https://github.com/MetaCubeX/mihomo/releases/download/Prerelease-Alpha/mihomo-linux-amd64-${version}.gz" | \
           gunzip -c > /usr/local/bin/mihomo && chmod +x /usr/local/bin/mihomo
 
-    - name: Fetch Banad_mini Rules
+    - name: Fetch BanAd_mini Rules
       run: |
         mkdir -p rules/Domain  # 确保目录存在
 
-        # 下载 AI 规则文件
+        # 下载 banAd_mini.yaml
         curl -sL "https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/refs/heads/main/Filters/AWAvenue-Ads-Rule-Clash.yaml" -o rules/Domain/banAd_mini.yaml
 
         # 删除 # 开头的注释行和空行
         sed -i '/^\s*#/d;/^\s*$/d' rules/Domain/banAd_mini.yaml
+
+    - name: Fetch and Merge pcdn.json Rules
+      run: |
+        # 下载 pcdn.json
+        curl -sL "https://raw.githubusercontent.com/DDCHlsq/sing-ruleset/refs/heads/master/pcdn.json" -o pcdn.json
+
+        # 提取 domain 和 domain_suffix 转成 Clash YAML 追加到 banAd_mini.yaml
+        echo "" >> rules/Domain/banAd_mini.yaml
+        echo "# ==== PCDN Domains ====" >> rules/Domain/banAd_mini.yaml
+
+        domains=$(jq -r '.rules[].domain[]?' pcdn.json)
+        for d in $domains; do
+          echo "  - '$d'" >> rules/Domain/banAd_mini.yaml
+        done
+
+        suffixes=$(jq -r '.rules[].domain_suffix[]?' pcdn.json)
+        for s in $suffixes; do
+          clean=$(echo "$s" | sed 's/^\.//')   # 去掉开头的 .
+          echo "  - '*.$clean'" >> rules/Domain/banAd_mini.yaml
+        done
 
     - name: Convert BanAd_mini Rules to MRS
       run: |
