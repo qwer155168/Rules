@@ -44,9 +44,7 @@ jobs:
         # 下载 pcdn.json
         curl -sL "https://raw.githubusercontent.com/DDCHlsq/sing-ruleset/refs/heads/master/pcdn.json" -o pcdn.json
 
-        # 提取 domain 和 domain_suffix 转成 Clash YAML 追加到 banAd_mini.yaml
-        echo "" >> rules/Domain/banAd_mini.yaml
-
+        # 提取 domain 和 domain_suffix，追加到 banAd_mini.yaml
         domains=$(jq -r '.rules[].domain[]?' pcdn.json)
         for d in $domains; do
           echo "  - '$d'" >> rules/Domain/banAd_mini.yaml
