@@ -25,9 +25,9 @@ jobs:
 
     - name: Install mihomo
       run: |
-        python3 -m pip install --upgrade pip
-        pip install -U git+https://github.com/KT-Yeh/mihomo.git
-        export PATH="$HOME/.local/bin:$PATH"
+        python3 -m pip install --upgrade --target /usr/local/lib/python3.11/site-packages git+https://github.com/KT-Yeh/mihomo.git
+        cp /usr/local/lib/python3.11/site-packages/mihomo /usr/local/bin/mihomo
+        chmod +x /usr/local/bin/mihomo
 
     - name: Fetch BanAd_mini Rules
       run: |
