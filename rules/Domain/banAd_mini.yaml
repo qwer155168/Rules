@@ -1,14 +1,3 @@
-#Title: AWAvenue Ads Rule
-#--------------------------------------
-#Total lines: 855
-#Version: 1.6.8-release
-#Update time: 2025-08-23 15:41:58 UTC+8
-#Update content: 拦截 dongqiudi比赛界面横幅广告，感谢 @酵母
-
-#Homepage: https://github.com/TG-Twilight/AWAvenue-Ads-Rule
-#License: https://github.com/TG-Twilight/AWAvenue-Ads-Rule/blob/main/LICENSE
-
-
 payload:
   - '1500020991.vodplayer.wxamedia.com'
   - '1500022744.vodplayer.wxamedia.com'
