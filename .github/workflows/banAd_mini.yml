@@ -44,4 +44,4 @@ jobs:
     - name: Commit and Push Changes
       run: |
         git add .
-        git diff-index --quiet HEAD -- || (git commit -m "Updated AI rules (ai.yaml -> ai.mrs)" && git push)
+        git diff-index --quiet HEAD -- || (git commit -m "Updated BanAd_mini rules (banAd_mini.yaml -> banAd_mini.mrs)" && git push)
