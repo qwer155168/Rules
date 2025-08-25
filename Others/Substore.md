@@ -312,7 +312,7 @@ function main(config) {
 
 ### 修改配置文件规则链接
 比如我想要把默认配置的mini版去广告规则改为完整版那可用如下代码
-```json
+```
 // 加载原始 YAML 内容（假设 $content 包含原始 YAML）
 const yaml = ProxyUtils.yaml.safeLoad($content)
 
