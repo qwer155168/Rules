@@ -25,10 +25,9 @@ jobs:
 
     - name: Install mihomo
       run: |
-        python3 -m pip install --upgrade pip
-        python3 -m pip install --target /tmp/mihomo git+https://github.com/KT-Yeh/mihomo.git
-        cp /tmp/mihomo/mihomo /usr/local/bin/mihomo
-        chmod +x /usr/local/bin/mihomo
+        version=$(curl -sL https://github.com/MetaCubeX/mihomo/releases/download/Prerelease-Alpha/version.txt)
+        curl -sL "https://github.com/MetaCubeX/mihomo/releases/download/Prerelease-Alpha/mihomo-linux-amd64-${version}.gz" | \
+          gunzip -c > /usr/local/bin/mihomo && chmod +x /usr/local/bin/mihomo
 
     - name: Fetch BanAd_mini Rules
       run: |
