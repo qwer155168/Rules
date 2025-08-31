@@ -13,83 +13,98 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout the repository
+    - name: Checkout repository
       uses: actions/checkout@v4
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Set up Git user
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    - name: Install dependencies
+      run: npm install fs-extra yaml
+
+    - name: Fetch Game Rules
+      run: |
+        mkdir -p tmp_repo
+        git clone --depth=1 --filter=blob:none --sparse https://github.com/FQrabbit/SSTap-Rule.git tmp_repo
+        cd tmp_repo
+        git sparse-checkout set rules
+        cp -r rules/* ../rules/Game/
+        cd ..
+        rm -rf tmp_repo
+
+    - name: Convert Rules to YAML with IP Fix
+      run: |
+        node <<'EOF'
+        const fs = require('fs-extra');
+        const path = require('path');
+
+        const inDir = 'rules/Game';
+        const outDir = 'Game';
+
+        function isPrivateIP(ip) {
+          return /^(10\..*|172\.(1[6-9]|2[0-9]|3[01])\..*|192\.168\..*|169\.254\..*|22[4-9]\..*|2[3-5][0-9]\..*)$/.test(ip);
+        }
+
+        function fixIPv4(line) {
+          // 匹配类似 24.20.1670/24 的写法
+          const match = line.match(/^(\d+)\.(\d+)\.(\d+)(\d+)\/(\d+)$/);
+          if (match) {
+            const [_, o1, o2, o3, extra, prefix] = match;
+            return `${o1}.${o2}.${o3}.${extra}/` + prefix;
+          }
+          return line;
+        }
+
+        async function walk(dir) {
+          let files = [];
+          for (const f of await fs.readdir(dir)) {
+            const fullPath = path.join(dir, f);
+            const stat = await fs.stat(fullPath);
+            if (stat.isDirectory()) {
+              files = files.concat(await walk(fullPath));
+            } else if (f.endsWith('.rules')) {
+              files.push(fullPath);
+            }
+          }
+          return files;
+        }
+
+        async function main() {
+          await fs.ensureDir(outDir);
+          const files = await walk(inDir);
+
+          for (const file of files) {
+            const content = await fs.readFile(file, 'utf8');
+            const lines = content.split(/\r?\n/).filter(l => l && !l.startsWith('#'));
+
+            const payload = lines
+              .map(fixIPv4)
+              .filter(line => !isPrivateIP(line));
+
+            const baseName = path.basename(file, '.rules') + '.yaml';
+            const outPath = path.join(outDir, baseName);
+
+            await fs.writeFile(outPath, 'payload:\n' + payload.map(l => `  - '${l}'`).join('\n'));
+            console.log(`Generated YAML: ${outPath}`);
+          }
+        }
+
+        main().catch(e => { console.error(e); process.exit(1); });
+        EOF
+
+    - name: Commit and Push Changes
       run: |
         git config user.name "github-actions[bot]"
         git config user.email "github-actions[bot]@users.noreply.github.com"
 
-    - name: Create action directory
-      run: mkdir -p rules/Game/action
-
-    - name: Fetch Game Rules and Remove Private CIDR & Comments
-      run: |
-        # 克隆 SSTap-Rule 仓库，仅拉取 rules 目录
-        git clone --depth=1 --filter=blob:none --sparse https://github.com/FQrabbit/SSTap-Rule.git tmp_repo
-        cd tmp_repo
-        git sparse-checkout set rules
-        cp -r rules/* ../rules/Game/action/
-        cd ..
-        rm -rf tmp_repo
-
-        # 删除私有地址 CIDR 和注释行
-        sed -i '/(^10|^172\.(1[6-9]|2[0-9]|3[01])|^192.168|^169.254|^22[4-9]|^2[3-5][0-9]).*/d' rules/Game/action/*.rules
-        sed -i '/^#/d' rules/Game/action/*.rules  # 删除注释行
-
-    - name: Convert Rules to YAML with IP Fix
-      run: |
-        mkdir -p rules/Game
-        for file in rules/Game/action/*.rules; do
-          filename=$(basename -- "$file")
-          name="${filename%.rules}"
-          
-          # 替换空格为连字符，替换&为and
-          safe_name="${name// /-}"
-          safe_name="${safe_name//&/and}"
-
-          output="rules/Game/${safe_name}.yaml"
-
-          echo "payload:" > "$output"
-          
-          # 读取规则并生成 YAML，修复非法 IP
-          while IFS= read -r line; do
-            if [[ -n "$line" ]]; then
-              # 检测是否为 IPv4/CIDR 格式
-              if [[ "$line" =~ ^([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)/([0-9]+)$ ]]; then
-                oct1=${BASH_REMATCH[1]}
-                oct2=${BASH_REMATCH[2]}
-                oct3=${BASH_REMATCH[3]}
-                oct4=${BASH_REMATCH[4]}
-                prefix=${BASH_REMATCH[5]}
-
-                # 修正超过 255 的段
-                ((oct1>255)) && oct1=255
-                ((oct2>255)) && oct2=255
-                ((oct3>255)) && oct3=255
-                ((oct4>255)) && oct4=0  # 第四段非法改成0
-
-                line="$oct1.$oct2.$oct3.$oct4/$prefix"
-              fi
-
-              # 过滤私有 IP
-              if ! [[ "$line" =~ ^(10\..*|172\.(1[6-9]|2[0-9]|3[01])\..*|192\.168\..*|169\.254\..*|22[4-9]\..*|2[3-5][0-9]\..*)$ ]]; then
-                echo "  - '$line'" >> "$output"
-              fi
-            fi
-          done < "$file"
-        done
-
-    - name: Remove Action Folder
-      run: rm -rf rules/Game/action
-
-    - name: Pull Latest Changes from Remote
-      run: git pull origin main
-
-    - name: Commit and Push Changes
-      run: |
-        git add rules/Game/*.yaml
-        git diff-index --quiet HEAD -- || (git commit -m "Updated game rules with IP fix" && git push)
+        if ls Game/*.yaml 1> /dev/null 2>&1; then
+          git add Game/*.yaml
+          git commit -m "Updated Game rules with IP fix" || echo "No changes to commit"
+          git push
+        else
+          echo "No YAML files generated, skipping commit."
+        fi
