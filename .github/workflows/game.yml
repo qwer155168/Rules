@@ -138,7 +138,7 @@ jobs:
 
         if ls Game/*.yaml 1> /dev/null 2>&1; then
           git add Game/*.yaml
-          git commit -m "Updated Game rules with fixed IPv4" || echo "No changes to commit"
+          git commit -m "Updated Game rules with fixed IPv4" --allow-empty
           git push
         else
           echo "No YAML files generated, skipping commit."
