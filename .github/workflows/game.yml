@@ -43,7 +43,7 @@ jobs:
         const path = require('path');
 
         const inDir = 'rules/Game';
-        const outDir = 'Game';
+        const outDir = 'rules/Game';
 
         function isPrivateIP(ip) {
           return /^(10\..*|172\.(1[6-9]|2[0-9]|3[01])\..*|192\.168\..*|169\.254\..*|22[4-9]\..*|2[3-5][0-9]\..*)$/.test(ip);
@@ -136,8 +136,8 @@ jobs:
         git config user.name "github-actions[bot]"
         git config user.email "github-actions[bot]@users.noreply.github.com"
 
-        if ls Game/*.yaml 1> /dev/null 2>&1; then
-          git add Game/*.yaml
+        if ls rules/Game/*.yaml 1> /dev/null 2>&1; then
+          git add rules/Game/*.yaml
           git commit -m "Updated Game rules with fixed IPv4" --allow-empty
           git push
         else
