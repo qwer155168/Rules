@@ -40,7 +40,7 @@ jobs:
         sed -i '/(^10|^172\.(1[6-9]|2[0-9]|3[01])|^192.168|^169.254|^22[4-9]|^2[3-5][0-9]).*/d' rules/Game/action/*.rules
         sed -i '/^#/d' rules/Game/action/*.rules  # 删除注释行
 
-    - name: Convert Rules to YAML
+    - name: Convert Rules to YAML with IP Fix
       run: |
         mkdir -p rules/Game
         for file in rules/Game/action/*.rules; do
@@ -48,17 +48,37 @@ jobs:
           name="${filename%.rules}"
           
           # 替换空格为连字符，替换&为and
-          safe_name="${name// /-}"   # 替换空格为连字符
-          safe_name="${safe_name//&/and}"  # 替换&为and
+          safe_name="${name// /-}"
+          safe_name="${safe_name//&/and}"
 
           output="rules/Game/${safe_name}.yaml"
 
           echo "payload:" > "$output"
           
-          # 读取规则并生成YAML，过滤掉私有IP
+          # 读取规则并生成 YAML，修复非法 IP
           while IFS= read -r line; do
-            if [[ -n "$line" && ! "$line" =~ ^(10\..*|172\.(1[6-9]|2[0-9]|3[01])\..*|192\.168\..*|169\.254\..*|22[4-9]\..*|2[3-5][0-9]\..*)$ ]]; then
-              echo "  - '$line'" >> "$output"
+            if [[ -n "$line" ]]; then
+              # 检测是否为 IPv4/CIDR 格式
+              if [[ "$line" =~ ^([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)/([0-9]+)$ ]]; then
+                oct1=${BASH_REMATCH[1]}
+                oct2=${BASH_REMATCH[2]}
+                oct3=${BASH_REMATCH[3]}
+                oct4=${BASH_REMATCH[4]}
+                prefix=${BASH_REMATCH[5]}
+
+                # 修正超过 255 的段
+                ((oct1>255)) && oct1=255
+                ((oct2>255)) && oct2=255
+                ((oct3>255)) && oct3=255
+                ((oct4>255)) && oct4=0  # 第四段非法改成0
+
+                line="$oct1.$oct2.$oct3.$oct4/$prefix"
+              fi
+
+              # 过滤私有 IP
+              if ! [[ "$line" =~ ^(10\..*|172\.(1[6-9]|2[0-9]|3[01])\..*|192\.168\..*|169\.254\..*|22[4-9]\..*|2[3-5][0-9]\..*)$ ]]; then
+                echo "  - '$line'" >> "$output"
+              fi
             fi
           done < "$file"
         done
@@ -67,10 +87,9 @@ jobs:
       run: rm -rf rules/Game/action
 
     - name: Pull Latest Changes from Remote
-      run: |
-        git pull origin main
+      run: git pull origin main
 
     - name: Commit and Push Changes
       run: |
-        git add .
-        git diff-index --quiet HEAD -- || (git commit -m "Updated game rules" && git push)
+        git add rules/Game/*.yaml
+        git diff-index --quiet HEAD -- || (git commit -m "Updated game rules with IP fix" && git push)
