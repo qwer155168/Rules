@@ -1,4 +1,4 @@
-name: Sync and Convert Game Rules
+name: Sync and Convert Game Rules with Fixed IPv4
 
 on:
   schedule:
@@ -36,7 +36,7 @@ jobs:
         cd ..
         rm -rf tmp_repo
 
-    - name: Convert Rules to YAML with IP Fix
+    - name: Convert Rules to YAML with Fixed IPv4
       run: |
         node <<'EOF'
         const fs = require('fs-extra');
@@ -50,13 +50,48 @@ jobs:
         }
 
         function fixIPv4(line) {
-          // 匹配类似 24.20.1670/24 的写法
-          const match = line.match(/^(\d+)\.(\d+)\.(\d+)(\d+)\/(\d+)$/);
-          if (match) {
-            const [_, o1, o2, o3, extra, prefix] = match;
-            return `${o1}.${o2}.${o3}.${extra}/` + prefix;
+          const cidrMatch = line.match(/\/(\d+)$/);
+          const cidr = cidrMatch ? parseInt(cidrMatch[1],10) : 32;
+
+          const parts = line.split('/');
+          let ip = parts[0];
+          const suffix = parts[1] || '';
+
+          let octets = ip.split('.').map(n => n.trim());
+          while(octets.length < 4) octets.push('0');
+
+          for (let i=0;i<octets.length;i++) {
+            let num = parseInt(octets[i],10);
+            if (isNaN(num)) num = 0;
+            octets[i] = num.toString();
           }
-          return line;
+
+          if (cidr === 24) {
+            // 第四段置0，第三段截取不超过三位
+            let third = parseInt(octets[2],10);
+            let thirdStr = third.toString();
+            if (thirdStr.length > 3) {
+              octets[2] = thirdStr.slice(0,3);
+            } else if (thirdStr.length > 2) {
+              octets[2] = thirdStr.slice(0,2);
+            } else {
+              octets[2] = thirdStr;
+            }
+            octets[3] = '0';
+          } else if (cidr === 32) {
+            // 第三段末两位为第三段，剩余为第四段，如果第四段为空就1
+            let third = parseInt(octets[2],10);
+            let thirdStr = third.toString();
+            if (thirdStr.length <= 2) {
+              octets[2] = thirdStr;
+              octets[3] = '1';
+            } else {
+              octets[2] = thirdStr.slice(0,2);
+              octets[3] = thirdStr.slice(2) || '1';
+            }
+          }
+
+          return octets.join('.') + '/' + cidr;
         }
 
         async function walk(dir) {
@@ -103,7 +138,7 @@ jobs:
 
         if ls Game/*.yaml 1> /dev/null 2>&1; then
           git add Game/*.yaml
-          git commit -m "Updated Game rules with IP fix" || echo "No changes to commit"
+          git commit -m "Updated Game rules with fixed IPv4" || echo "No changes to commit"
           git push
         else
           echo "No YAML files generated, skipping commit."
