@@ -1,8 +1,5 @@
 # UpdateTime: 2026-07-05 20:20:49
 # RuleCount: 6
-DOMAIN, ep2.facebook.com
-DOMAIN, www.google.com
-DOMAIN, firebaseremoteconfig.googleapis.com
 DOMAIN, cdn.zaticdn.com
 DOMAIN, az3-marketpush-dr.zainvest.group
 DOMAIN, marketpush-prd.zainvest.group
